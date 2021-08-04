@@ -1,6 +1,7 @@
 import re
 from flask import Flask, jsonify, request, redirect
 from searchs import recognize_face
+from rtree_index import *
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ def upload_image():
             return redirect(request.url)
 
         for _, value in request.form.items():
-            k = int(value)
+            k = int(float(value))
 
         #El numero de elementos a buscar esta fuera de rango
         if k <= 0 or k > 13234:
@@ -31,6 +32,7 @@ def upload_image():
         #Existe la imagen y tiene alguna extension valida
         if file and allowed_file(file.filename):
             return recognize_face(file, k)
+
     #Si es GET o la imagen no es valida, carga de nuevo la pag de inicio
     return '''
     <!doctype html>
@@ -44,4 +46,5 @@ def upload_image():
     '''
 
 if __name__ == "__main__":
+    #create_rtree_index()
     app.run(host='0.0.0.0', port=8080, debug=True)
