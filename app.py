@@ -46,5 +46,5 @@ def upload_image():
     '''
 
 if __name__ == "__main__":
-    create_rtree_index()
+    create_rtree_index(50)
     app.run(host='0.0.0.0', port=8080, debug=True)
